@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UniMarket</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
+    body { 
+      padding: 20px; 
+      background: linear-gradient(135deg, #09090e 0%, #171c61 50%, #2e37ad 100%); 
+      min-height: 100vh;
+      max-width: 650px; 
+      margin: 0 auto; 
+      color: #18181b; 
+    }
+    
+    .card { background: white; padding: 20px; border-radius: 12px; border: 1px solid #e4e4e7; margin-bottom: 20px; }
+    input, textarea, button, select { width: 100%; padding: 10px; margin-top: 8px; border-radius: 6px; border: 1px solid #d4d4d8; font-size: 14px; }
+    button { background: #18181b; color: white; border: none; cursor: pointer; font-weight: 600; }
+    button:hover { background: #27272a; }
+    .hidden { display: none !important; }
+
+    #landing-section {
+      color: white;
+      padding: 10px 5px 30px 5px;
+    }
+
+    .landing-navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .landing-brand {
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .landing-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .landing-nav-link {
+      color: #e4e4e7;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      width: auto;
+      margin-top: 0;
+      padding: 4px 8px;
+    }
+    .landing-nav-link:hover { background: transparent; color: #fff; }
+
+    .btn-nav-login {
+      background: #00d26a;
+      color: #09090e;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-weight: 700;
+      font-size: 13px;
+      width: auto;
+      margin-top: 0;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .btn-nav-login:hover { background: #00f079; }
+
+    .landing-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 35px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      padding: 25px;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-text-container { flex: 1; }
+
+    .hero-title {
+      font-family: 'Georgia', serif;
+      font-size: 28px;
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      color: #ffffff;
+    }
+
+    .hero-subtitle {
+      font-size: 13px;
+      color: #d1d5db;
+      line-height: 1.4;
+    }
+
+    .landing-logo-container {
+      width: 130px;
+      height: 130px;
+      flex-shrink: 0;
+      border-radius: 20px;
+      overflow: hidden;
+      background: #09090e;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(112, 0, 255, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .landing-logo-img { width: 100%; height: 100%; object-fit: cover; }
+
+    .landing-action-btns { display: flex; gap: 15px; width: 100%; }
+
+    .btn-action-green {
+      flex: 1;
+      background: linear-gradient(135deg, #00d26a 0%, #00b4d8 100%);
+      color: white;
+      border-radius: 18px;
+      padding: 16px 12px;
+      text-align: left;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(0,210,106,0.3);
+      margin-top: 0;
+    }
+
+    .btn-action-blue {
+      flex: 1;
+      background: linear-gradient(135deg, #00b4d8 0%, #6c5ce7 100%);
+      color: white;
+      border-radius: 18px;
+      padding: 16px 12px;
+      text-align: left;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(0,180,216,0.3);
+      margin-top: 0;
+    }
+
+    .action-btn-text strong { display: block; font-size: 15px; font-weight: 800; }
+    .action-btn-text span { font-size: 11px; opacity: 0.9; font-weight: 500; }
+
+    #auth-section, #reg-box {
+      background: #ffffff;
+      padding: 30px 25px;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      border: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .logo-login-container {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 15px auto;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #09090e;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+      border: 3px solid #8bc6ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-login-container img { width: 100%; height: 100%; object-fit: cover; }
+
+    .icon-container {
+      width: 60px;
+      height: 60px;
+      background: white;
+      border: 2px solid #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px auto;
+      position: relative;
+    }
+
+    .user-icon { width: 32px; height: 32px; fill: #1a5ca3; }
+    .plus-badge { position: absolute; top: -2px; right: -4px; font-size: 18px; font-weight: bold; color: #000; }
+    .form-title { font-size: 22px; font-weight: 800; color: #000; margin-bottom: 15px; }
+
+    .custom-input, .custom-select {
+      background-color: #cbe9f4;
+      border: none;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 13px;
+      color: #333;
+      margin-top: 10px;
+      outline: none;
+      text-align: left;
+    }
+
+    .custom-input::placeholder { color: #4a5568; }
+
+    .custom-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 18px center;
+      background-size: 14px;
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: 12px;
+      color: #444;
+      text-decoration: none;
+      margin-top: 8px;
+      margin-bottom: 20px;
+    }
+
+    .btn-blue {
+      background: #0052cc;
+      color: white;
+      border-radius: 20px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 0;
+    }
+
+    .btn-green {
+      background: linear-gradient(90deg, #6b63f6 0%, #00b975 100%);
+      color: white;
+      border-radius: 20px;
+      padding: 12px;
+      font-size: 17px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .terms-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      margin-top: 15px;
+      font-size: 12px;
+      color: #333;
+      padding-left: 10px;
+    }
+
+    .terms-wrapper input[type="checkbox"] { width: 16px; height: 16px; margin: 0; cursor: pointer; }
+    .register-text { font-size: 13px; color: #333; margin-top: 18px; }
+    .register-link { color: #0052cc; font-weight: bold; cursor: pointer; text-decoration: none; }
+
+    .brand-header {
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo-sm {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #09090e;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .card-minimal {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 20px;
+      border-radius: 20px;
+      border: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      margin-bottom: 20px;
+    }
+
+    .form-section-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #171c61;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .rounded-pill-input {
+      background: #e2e8f0;
+      border: none;
+      border-radius: 25px;
+      padding: 12px 20px;
+      font-size: 13px;
+      outline: none;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn-orange-action {
+      background: #ff7020;
+      color: white;
+      border-radius: 25px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(255,112,32,0.3);
+    }
+    .btn-orange-action:hover { background: #e05e14; }
+
+    .intercambio-box {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .intercambio-card {
+      flex: 1;
+      background: #e2e8f0;
+      border-radius: 20px;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .intercambio-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .intercambio-card .tag-carrera {
+      background: white;
+      padding: 4px 12px;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 8px;
+    }
+
+    .arrow-exchange {
+      font-size: 24px;
+      color: #ff7020;
+      font-weight: bold;
+    }
+
+    .post-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: bold;
+      color: white;
+      margin-left: 6px;
+    }
+    .badge-venta { background: #10b981; }
+    .badge-compra { background: #3b82f6; }
+    .badge-donacion { background: #8b5cf6; }
+    .badge-intercambio { background: #f59e0b; }
+    .badge-general { background: #71717a; }
+
+    .post { border-bottom: 1px solid #f4f4f5; padding: 16px 0; }
+    .post:last-child { border-bottom: none; }
+    .post-header { display: flex; justify-content: space-between; align-items: center; }
+    .post-author-wrapper { display: flex; align-items: center; gap: 10px; }
+    .avatar-sm { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; background: #e4e4e7; border: 1px solid #d4d4d8; flex-shrink: 0; }
+    .post-author { font-weight: 700; font-size: 14px; color: #18181b; }
+    .post-details { font-size: 11px; color: #71717a; margin-bottom: 2px; }
+    .post-img { width: 100%; max-height: 400px; object-fit: cover; border-radius: 12px; margin-top: 12px; border: none; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: rgba(255,255,255,0.95); padding: 15px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .file-input-wrapper { margin-top: 8px; text-align: left; }
+    .file-input-wrapper label { font-size: 11px; font-weight: 600; color: #71717a; display: block; margin-top: 8px; margin-left: 4px; }
+    .btn-del { background: transparent; color: #ef4444; border: none; font-size: 12px; cursor: pointer; width: auto; padding: 2px 6px; font-weight: 500; }
+    .btn-del:hover { background: #fee2e2; border-radius: 6px; }
+    .comments-box { margin-top: 12px; padding-top: 10px; border-top: 1px solid #f4f4f5; background: #fafafa; padding: 12px; border-radius: 12px; text-align: left; }
+    .comment-item { font-size: 12px; margin-top: 6px; border-bottom: 1px solid #f4f4f5; padding-bottom: 4px; color: #3f3f46; }
+    .comment-item:last-child { border-bottom: none; }
+    .comment-author { font-weight: 700; color: #18181b; }
+    .comment-form { display: flex; gap: 6px; margin-top: 8px; }
+    .comment-form input { margin-top: 0; font-size: 12px; padding: 8px 12px; border-radius: 8px; background: #fff; }
+    .comment-form button { width: auto; font-size: 12px; padding: 6px 14px; border-radius: 8px; background: #18181b; }
+
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+    .nav-tabs button { flex: 1; margin-top: 0; background: rgba(255,255,255,0.2); color: #ffffff; border-radius: 12px; border: none; padding: 10px; transition: background 0.2s; }
+    .nav-tabs button.active { background: #ffffff; color: #09090e; font-weight: 700; }
+
+    .unimarket-profile { background: transparent; color: white; padding: 10px 0; position: relative; }
+    .profile-header-user { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+    .avatar-unimarket { width: 85px; height: 85px; border-radius: 50%; object-fit: cover; background: #e4e4e7; border: 3px solid #ffffff; }
+    .profile-user-info h2 { font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 2px; }
+    .profile-user-info p { font-size: 13px; color: #e4e4e7; }
+    
+    .profile-banner-logo {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 70px;
+      height: 70px;
+      border-radius: 16px;
+      object-fit: cover;
+      background: #09090e;
+      border: 2px solid rgba(255,255,255,0.4);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+
+    .stats-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+    .stat-box { border-radius: 18px; padding: 14px 10px; text-align: center; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+    .stat-box-green { background: linear-gradient(130deg, #7000ff 0%, #00d26a 100%); }
+    .stat-box-blue { background: linear-gradient(130deg, #00b4d8 0%, #6c5ce7 100%); }
+    .stat-box-purple { background: linear-gradient(130deg, #a29bfe 0%, #6c5ce7 100%); }
+    .stat-title { font-size: 11px; font-weight: 700; margin-bottom: 4px; opacity: 0.9; }
+    .stat-value { font-size: 26px; font-weight: 800; }
+    .stat-icon { font-size: 14px; margin-top: 4px; background: rgba(255,255,255,0.25); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .section-title-white { font-size: 18px; font-weight: 800; color: #ffffff; margin-bottom: 12px; text-align: left; }
+  </style>
+</head>
+<body>
+
+  <div id="landing-section">
+    <div class="landing-navbar">
+      <div class="landing-brand">UniMarket</div>
+      <div class="landing-nav-links">
+        <button class="landing-nav-link" id="nav-btn-home">Inicio</button>
+        <button class="landing-nav-link" id="nav-btn-explore">Explorar</button>
+        <button class="landing-nav-link" id="nav-btn-profile">Perfil</button>
+        <button class="btn-nav-login" id="nav-btn-login">Iniciar sesión</button>
+      </div>
+    </div>
+
+    <div class="landing-hero">
+      <div class="hero-text-container">
+        <h1 class="hero-title">Conocimiento que se comparte</h1>
+        <p class="hero-subtitle">Encuentra, sube y colabora con trabajos de tu universidad</p>
+      </div>
+      <div class="landing-logo-container">
+        <img src="logo.jpeg" alt="UniMarket Logo" class="landing-logo-img">
+      </div>
+    </div>
+
+    <div class="landing-action-btns">
+      <button class="btn-action-green" id="btn-hero-explore">
+        <span style="font-size:22px;">✓</span>
+        <div class="action-btn-text">
+          <strong>Explorar trabajos</strong>
+        </div>
+      </button>
+
+      <button class="btn-action-blue" id="btn-hero-upload">
+        <span style="font-size:22px;">🔍</span>
+        <div class="action-btn-text">
+          <strong>Subir mi trabajo</strong>
+          <span>Buscar por materia</span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <div id="auth-section" class="hidden">
+    <div class="logo-login-container">
+      <img src="logo.jpeg" alt="UniMarket Logo">
+    </div>
+
+    <input type="email" id="auth-email" class="custom-input" placeholder="Correo electrónico">
+    <input type="password" id="auth-password" class="custom-input" placeholder="Contraseña">
+    
+    <select class="custom-select">
+      <option value="recordarme">Recordarme</option>
+      <option value="no-recordarme">No recordarme</option>
+    </select>
+
+    <a href="#" class="forgot-link" onclick="alert('Contacta al administrador para recuperar tu cuenta.'); return false;">Olvide mi contraseña</a>
+
+    <button id="btn-login" class="btn-blue" type="button">Entrar</button>
+
+    <p class="register-text">
+      No tienes cuenta? <span id="btn-show-reg" class="register-link">Crear cuenta</span>
+    </p>
+    <p style="margin-top: 15px;">
+      <a href="#" id="btn-back-landing" style="font-size: 12px; color: #71717a; text-decoration: none;">← Volver al inicio</a>
+    </p>
+  </div>
+
+  <div id="reg-box" class="hidden">
+    <div class="icon-container">
+      <svg class="user-icon" viewBox="0 0 24 24">
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+      </svg>
+      <span class="plus-badge">+</span>
+    </div>
+
+    <div class="form-title">Crear cuenta</div>
+
+    <input type="text" id="reg-name" class="custom-input" placeholder="Nombre completo">
+    <input type="email" id="reg-email" class="custom-input" placeholder="Correo electrónico">
+    <input type="tel" id="reg-phone" class="custom-input" placeholder="Teléfono">
+    <input type="text" id="reg-cuatrimestre" class="custom-input" placeholder="Cuatrimestre">
+    <input type="text" id="reg-matricula" class="custom-input" placeholder="Matricula">
+    
+    <input type="password" id="reg-password" class="custom-input" placeholder="Contraseña">
+    <input type="password" id="reg-confirm-password" class="custom-input" placeholder="Confirmar contraseña">
+
+    <div class="file-input-wrapper">
+      <label>Fecha de nacimiento:</label>
+      <input type="date" id="reg-dob" class="custom-input" style="margin-top:2px;">
+    </div>
+    <input type="text" id="reg-career" class="custom-input" placeholder="Carrera que estás estudiando">
+
+    <div class="file-input-wrapper">
+      <label>Foto de perfil (Opcional):</label>
+      <input type="file" id="reg-photo" accept="image/*">
+    </div>
+
+    <div class="terms-wrapper">
+      <input type="checkbox" id="reg-terms">
+      <label for="reg-terms">Acepto los términos y condiciones</label>
+    </div>
+
+    <button id="btn-register" class="btn-green" type="button">Registrarse</button>
+
+    <p class="register-text">
+      Ya tienes una cuenta? <span id="btn-cancel-reg" class="register-link">Iniciar sesión</span>
+    </p>
+  </div>
+
+  <div id="app-section" class="hidden">
+    <div class="brand-header">
+      <img src="logo.jpeg" alt="UniMarket Logo" class="brand-logo-sm">
+      UniMarket
+    </div>
+
+    <div class="header">
+      <div>
+        <strong id="user-name" style="display:block; font-size:15px; color:#18181b;">Invitado / Lector</strong>
+        <span style="font-size: 12px; color: #71717a;">Estado: <span id="user-email">Sin iniciar sesión</span></span>
+      </div>
+      <button id="btn-logout" style="width: auto; padding: 8px 14px; background: #ef4444; border-radius: 10px;">Cerrar Sesión</button>
+    </div>
+
+    <div class="nav-tabs">
+      <button id="tab-feed" class="active">Inicio (Feed)</button>
+      <button id="tab-profile">Mi Perfil</button>
+    </div>
+
+    <div id="view-feed">
+      <div class="card-minimal">
+        <label style="font-size: 12px; font-weight: 700; color: #171c61;">¿Qué deseas hacer hoy en UniMarket?</label>
+        <select id="post-type" class="rounded-pill-input" style="cursor:pointer; margin-bottom:15px; font-weight:bold;">
+          <option value="General">💬 Publicación General / Comentario</option>
+          <option value="Venta">🏷️ Vender Producto</option>
+          <option value="Donacion">🎁 Quiero Donar</option>
+          <option value="Intercambio">🔄 Proponer Intercambio</option>
+          <option value="Compra">🔍 Solicitud de Compra</option>
+        </select>
+
+        <div id="form-general">
+          <textarea id="post-input" class="rounded-pill-input" rows="3" placeholder="¿Qué quieres compartir en UniMarket hoy?" style="border-radius:15px;"></textarea>
+        </div>
+
+        <div id="form-donar" class="hidden">
+          <div class="form-section-title">🎁 Quiero donar</div>
+          <input type="text" id="donar-producto" class="rounded-pill-input" placeholder="Producto a donar">
+          <input type="text" id="donar-estado" class="rounded-pill-input" placeholder="Estado del producto (Ej: Usado, Excelente)">
+          <input type="text" id="donar-carrera" class="rounded-pill-input" placeholder="Carrera dirigida (Ej: Medicina, Ingeniería)">
+        </div>
+
+        <div id="form-vender" class="hidden">
+          <div class="form-section-title">🏷️ Vender</div>
+          <input type="text" id="vender-nombre" class="rounded-pill-input" placeholder="Nombre del producto">
+          <input type="text" id="vender-categoria" class="rounded-pill-input" placeholder="Categoría (Ej: Libros, Electrónica)">
+          <input type="number" id="vender-precio" class="rounded-pill-input" placeholder="Precio ($ MXN)">
+          <textarea id="vender-descripcion" class="rounded-pill-input" rows="2" placeholder="Descripción breve del producto" style="border-radius:15px;"></textarea>
+          <input type="text" id="vender-carrera" class="rounded-pill-input" placeholder="Carrera / Cuatrimestre">
+        </div>
+
+        <div id="form-intercambio" class="hidden">
+          <div class="form-section-title">🔄 Intercambiar</div>
+          <div class="intercambio-box">
+            <div class="intercambio-card">
+              <h4 style="color:#d97706;">Lo que doy</h4>
+              <input type="text" id="inter-doy-prod" class="rounded-pill-input" placeholder="Ej: Libro de física" style="background:#fff;">
+              <input type="text" id="inter-doy-carrera" class="rounded-pill-input" placeholder="Ej: INGENIERÍA" style="background:#fff;">
+            </div>
+            <div class="arrow-exchange">➔</div>
+            <div class="intercambio-card">
+              <h4 style="color:#2563eb;">Lo que busco</h4>
+              <input type="text" id="inter-busco-prod" class="rounded-pill-input" placeholder="Ej: Cuadernos nuevos" style="background:#fff;">
+              <input type="text" id="inter-busco-carrera" class="rounded-pill-input" placeholder="Ej: ARQUITECTURA" style="background:#fff;">
+            </div>
+          </div>
+        </div>
+
+        <div id="form-comprar" class="hidden">
+          <div class="form-section-title">🔍 Solicitud de Compra</div>
+          <input type="text" id="comprar-producto" class="rounded-pill-input" placeholder="¿Qué producto, material o libro buscas comprar?">
+          <input type="text" id="comprar-categoria" class="rounded-pill-input" placeholder="Categoría objetivo">
+          <input type="number" id="comprar-presupuesto" class="rounded-pill-input" placeholder="Presupuesto aproximado ($ MXN)">
+        </div>
+
+        <div class="file-input-wrapper" style="margin-top:15px;">
+          <label>Imagen del producto / publicación:</label>
+          <input type="file" id="post-file" accept="image/*" class="rounded-pill-input" style="background:#f1f5f9;">
+          <input type="url" id="post-url" class="rounded-pill-input" placeholder="O pega enlace de la imagen https://..." style="background:#f1f5f9;">
+        </div>
+
+        <button id="btn-publish" class="btn-orange-action">Publicar en UniMarket</button>
+      </div>
+
+      <div class="card-minimal">
+        <h3>Publicaciones Recientes</h3>
+        <div id="posts-container">
+          <p style="color: #a1a1aa; margin-top: 10px;">Cargando publicaciones...</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-profile" class="hidden">
+      <div class="unimarket-profile">
+        <img src="logo.jpeg" alt="UniMarket Logo" class="profile-banner-logo">
+
+        <div class="profile-header-user">
+          <img id="profile-avatar" class="avatar-unimarket" src="" alt="Foto de Perfil">
+          <div class="profile-user-info">
+            <h2 id="profile-name">Cargando...</h2>
+            <p id="profile-career-text">Carrera</p>
+            <p id="profile-cuatrimestre-text">Cuatrimestre</p>
+          </div>
+        </div>
+
+        <div class="stats-container">
+          <div class="stat-box stat-box-green">
+            <span class="stat-title">Trabajos subidos</span>
+            <span id="profile-posts-count" class="stat-value">0</span>
+            <div class="stat-icon">✓</div>
+          </div>
+          <div class="stat-box stat-box-blue">
+            <span class="stat-title">Valoración promedio:</span>
+            <span class="stat-value">4.6</span>
+            <div class="stat-icon">✓</div>
+          </div>
+          <div class="stat-box stat-box-purple">
+            <span class="stat-title">Descargas</span>
+            <span class="stat-value">⤓ 245</span>
+          </div>
+          <div class="stat-box stat-box-purple">
+            <span class="stat-title">Medallas</span>
+            <span class="stat-value">🏅 2</span>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 15px;">
+          <div class="file-input-wrapper" style="width: 100%;">
+            <label>Cambiar foto de perfil:</label>
+            <input type="file" id="update-avatar-file" accept="image/*">
+            <button id="btn-update-avatar" style="margin-top: 6px; background: #4b5563;">Actualizar Foto</button>
+          </div>
+        </div>
+
+        <div class="section-title-white">Mis publicaciones</div>
+        <div class="card">
+          <div id="my-posts-container">
+            <p style="color: #a1a1aa; margin-top: 10px;">Cargando mis publicaciones...</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, setDoc, getDoc, updateDoc, query, orderBy, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const cfg = {
+      apiKey: "AIzaSyBmxZqzgBcqTfeVaKsHhHjDqBTE_IXUjh8",
+      authDomain: "red-social-6115f.firebaseapp.com",
+      projectId: "red-social-6115f",
+      storageBucket: "red-social-6115f.firebasestorage.app",
+      messagingSenderId: "243940792046",
+      appId: "1:243940792046:web:ea0280b197b6091c3e05ff",
+      measurementId: "G-ZNBLJM94SJ"
+    };
+
+    const app = initializeApp(cfg);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const boxLanding = document.getElementById("landing-section");
+    const boxAuth = document.getElementById("auth-section");
+    const boxReg = document.getElementById("reg-box");
+    const boxApp = document.getElementById("app-section");
+    const txtUser = document.getElementById("user-email");
+    const txtName = document.getElementById("user-name");
+    const btnLogout = document.getElementById("btn-logout");
+    const feed = document.getElementById("posts-container");
+    const myFeed = document.getElementById("my-posts-container");
+
+    const tabFeed = document.getElementById("tab-feed");
+    const tabProfile = document.getElementById("tab-profile");
+    const viewFeed = document.getElementById("view-feed");
+    const viewProfile = document.getElementById("view-profile");
+
+    const defaultAvatar = "https://via.placeholder.com/150/d4d4d8/18181b?text=User";
+    let activeUserProfile = null;
+
+    const selectType = document.getElementById("post-type");
+    const formGen = document.getElementById("form-general");
+    const formDon = document.getElementById("form-donar");
+    const formVen = document.getElementById("form-vender");
+    const formInt = document.getElementById("form-intercambio");
+    const formCom = document.getElementById("form-comprar");
+
+    selectType.onchange = () => {
+      let val = selectType.value;
+      formGen.classList.add("hidden");
+      formDon.classList.add("hidden");
+      formVen.classList.add("hidden");
+      formInt.classList.add("hidden");
+      formCom.classList.add("hidden");
+
+      if (val === "General") formGen.classList.remove("hidden");
+      if (val === "Donacion") formDon.classList.remove("hidden");
+      if (val === "Venta") formVen.classList.remove("hidden");
+      if (val === "Intercambio") formInt.classList.remove("hidden");
+      if (val === "Compra") formCom.classList.remove("hidden");
+    };
+
+    function showFeedDirectly() {
+      boxLanding.classList.add("hidden");
+      boxAuth.classList.add("hidden");
+      boxReg.classList.add("hidden");
+      boxApp.classList.remove("hidden");
+
+      if (!auth.currentUser) {
+        txtName.textContent = "Invitado / Lector";
+        txtUser.textContent = "Modo exploración libre";
+        btnLogout.textContent = "Iniciar Sesión";
+      } else {
+        btnLogout.textContent = "Cerrar Sesión";
+      }
+
+      tabFeed.click();
+      getFeed();
+    }
+
+    function showAuthView() {
+      boxLanding.classList.add("hidden");
+      boxAuth.classList.remove("hidden");
+      boxReg.classList.add("hidden");
+      boxApp.classList.add("hidden");
+    }
+
+    function showLandingView() {
+      if (!auth.currentUser) {
+        boxLanding.classList.remove("hidden");
+        boxAuth.classList.add("hidden");
+        boxReg.classList.add("hidden");
+        boxApp.classList.add("hidden");
+      } else {
+        showFeedDirectly();
+      }
+    }
+
+    document.getElementById("btn-hero-explore").onclick = showFeedDirectly;
+    document.getElementById("nav-btn-explore").onclick = showFeedDirectly;
+
+    document.getElementById("nav-btn-login").onclick = showAuthView;
+    document.getElementById("nav-btn-profile").onclick = () => {
+      if (!auth.currentUser) {
+        showAuthView();
+      } else {
+        showFeedDirectly();
+        tabProfile.click();
+      }
+    };
+
+    document.getElementById("nav-btn-home").onclick = showLandingView;
+    document.getElementById("btn-hero-upload").onclick = () => {
+      if (!auth.currentUser) {
+        alert("Para subir publicaciones necesitas iniciar sesión.");
+        showAuthView();
+      } else {
+        showFeedDirectly();
+      }
+    };
+
+    document.getElementById("btn-back-landing").onclick = (e) => {
+      e.preventDefault();
+      showLandingView();
+    };
+
+    tabFeed.onclick = () => {
+      tabFeed.classList.add("active");
+      tabProfile.classList.remove("active");
+      viewFeed.classList.remove("hidden");
+      viewProfile.classList.add("hidden");
+    };
+
+    tabProfile.onclick = () => {
+      if (!auth.currentUser) {
+        alert("Debes iniciar sesión para acceder a tu perfil.");
+        return showAuthView();
+      }
+      tabProfile.classList.add("active");
+      tabFeed.classList.remove("active");
+      viewProfile.classList.remove("hidden");
+      viewFeed.classList.add("hidden");
+    };
+
+    document.getElementById("btn-show-reg").onclick = (e) => {
+      if(e) e.preventDefault();
+      boxAuth.classList.add("hidden");
+      boxReg.classList.remove("hidden");
+    };
+
+    document.getElementById("btn-cancel-reg").onclick = (e) => {
+      if(e) e.preventDefault();
+      boxReg.classList.add("hidden");
+      boxAuth.classList.remove("hidden");
+    };
+
+    document.getElementById("btn-register").onclick = async (e) => {
+      if(e) e.preventDefault();
+      let name = document.getElementById("reg-name").value.trim();
+      let mail = document.getElementById("reg-email").value.trim();
+      let phone = document.getElementById("reg-phone").value.trim();
+      let cuatrimestre = document.getElementById("reg-cuatrimestre").value.trim();
+      let matricula = document.getElementById("reg-matricula").value.trim();
+      let pass = document.getElementById("reg-password").value;
+      let confirmPass = document.getElementById("reg-confirm-password").value;
+      let terms = document.getElementById("reg-terms").checked;
+
+      let dob = document.getElementById("reg-dob").value || "N/A";
+      let career = document.getElementById("reg-career").value.trim() || "Estudiante";
+      let photoFile = document.getElementById("reg-photo").files[0];
+
+      if (!name || !mail || !cuatrimestre || !matricula || !pass) {
+        return alert("Por favor llena todos los campos obligatorios.");
+      }
+
+      if (pass !== confirmPass) {
+        return alert("Las contraseñas no coinciden.");
+      }
+
+      if (!terms) {
+        return alert("Debes aceptar los términos y condiciones para continuar.");
+      }
+
+      let avatarUrl = "";
+      if (photoFile) {
+        try {
+          avatarUrl = await reduceImg(photoFile);
+        } catch (err) {
+          console.error("Error al procesar la foto:", err);
+        }
+      }
+
+      try {
+        let res = await createUserWithEmailAndPassword(auth, mail, pass);
+        
+        await setDoc(doc(db, "users", res.user.uid), {
+          fullName: name,
+          birthDate: dob,
+          career: career,
+          matricula: matricula,
+          cuatrimestre: cuatrimestre,
+          phone: phone || "",
+          photoUrl: avatarUrl,
+          email: mail,
+          createdAt: serverTimestamp()
+        });
+
+        alert("¡Cuenta creada e inicio de sesión correcto!");
+        boxReg.classList.add("hidden");
+      } catch (err) { 
+        alert("Error al registrarse: " + err.message); 
+      }
+    };
+
+    document.getElementById("btn-login").onclick = async (e) => {
+      if(e) e.preventDefault();
+      let mail = document.getElementById("auth-email").value.trim();
+      let pass = document.getElementById("auth-password").value;
+      if (!mail || !pass) return alert("Ingresa correo y contraseña.");
+      try {
+        await signInWithEmailAndPassword(auth, mail, pass);
+      } catch (err) { alert("Error de inicio de sesión: " + err.message); }
+    };
+
+    btnLogout.onclick = () => {
+      if (!auth.currentUser) {
+        showAuthView();
+      } else {
+        signOut(auth);
+      }
+    };
+
+    onAuthStateChanged(auth, async (u) => {
+      if (u) {
+        boxLanding.classList.add("hidden");
+        boxAuth.classList.add("hidden");
+        boxReg.classList.add("hidden");
+        boxApp.classList.remove("hidden");
+        txtUser.textContent = u.email;
+        btnLogout.textContent = "Cerrar Sesión";
+
+        try {
+          let uSnap = await getDoc(doc(db, "users", u.uid));
+          if (uSnap.exists()) {
+            activeUserProfile = uSnap.data();
+            txtName.textContent = activeUserProfile.fullName || u.email;
+          } else {
+            activeUserProfile = { fullName: u.email, career: "", cuatrimestre: "", photoUrl: "" };
+            txtName.textContent = u.email;
+          }
+        } catch (err) {
+          activeUserProfile = { fullName: u.email, career: "", cuatrimestre: "", photoUrl: "" };
+          txtName.textContent = u.email;
+        }
+
+        renderProfileCard();
+        getFeed();
+      } else {
+        activeUserProfile = null;
+        if (!boxApp.classList.contains("hidden")) {
+          txtName.textContent = "Invitado / Lector";
+          txtUser.textContent = "Modo exploración libre";
+          btnLogout.textContent = "Iniciar Sesión";
+        } else {
+          showLandingView();
+        }
+      }
+    });
+
+    function renderProfileCard() {
+      if (!activeUserProfile) return;
+      let elAvatar = document.getElementById("profile-avatar");
+      let elName = document.getElementById("profile-name");
+      let elCareer = document.getElementById("profile-career-text");
+      let elCuatrimestre = document.getElementById("profile-cuatrimestre-text");
+
+      if(elAvatar) elAvatar.src = activeUserProfile.photoUrl || defaultAvatar;
+      if(elName) elName.textContent = activeUserProfile.fullName || (auth.currentUser ? auth.currentUser.email : "");
+      if(elCareer) elCareer.textContent = activeUserProfile.career || "Estudiante";
+      if(elCuatrimestre) elCuatrimestre.textContent = activeUserProfile.cuatrimestre ? `${activeUserProfile.cuatrimestre} cuatrimestre` : "1° cuatrimestre";
+    }
+
+    document.getElementById("btn-update-avatar").onclick = async () => {
+      if (!auth.currentUser) return alert("Inicia sesión para actualizar tu foto.");
+      let file = document.getElementById("update-avatar-file").files[0];
+      if (!file) return alert("Selecciona una imagen primero.");
+      try {
+        let newAvatar = await reduceImg(file);
+        await updateDoc(doc(db, "users", auth.currentUser.uid), { photoUrl: newAvatar });
+        activeUserProfile.photoUrl = newAvatar;
+        renderProfileCard();
+        alert("Foto de perfil actualizada correctamente.");
+        document.getElementById("update-avatar-file").value = "";
+      } catch (e) {
+        alert("Error al actualizar foto: " + e.message);
+      }
+    };
+
+    function reduceImg(f) {
+      return new Promise((res, rej) => {
+        let r = new FileReader();
+        r.readAsDataURL(f);
+        r.onload = (ev) => {
+          let img = new Image();
+          img.src = ev.target.result;
+          img.onload = () => {
+            let c = document.createElement("canvas");
+            let w = 800;
+            let s = w / img.width;
+            c.width = s < 1 ? w : img.width;
+            c.height = s < 1 ? img.height * s : img.height;
+            let ctx = c.getContext("2d");
+            ctx.drawImage(img, 0, 0, c.width, c.height);
+            res(c.toDataURL("image/jpeg", 0.7));
+          };
+        };
+        r.onerror = (e) => rej(e);
+      });
+    }
+
+    document.getElementById("btn-publish").onclick = async () => {
+      if (!auth.currentUser) {
+        alert("Debes iniciar sesión para realizar una publicación.");
+        return showAuthView();
+      }
+
+      let postType = selectType.value;
+      let txtContent = "";
+
+      if (postType === "General") {
+        txtContent = document.getElementById("post-input").value;
+      } else if (postType === "Donacion") {
+        let p = document.getElementById("donar-producto").value.trim();
+        let e = document.getElementById("donar-estado").value.trim();
+        let c = document.getElementById("donar-carrera").value.trim();
+        if(!p) return alert("Ingresa el producto a donar.");
+        txtContent = `🎁 DONACIÓN: ${p}\n• Estado: ${e || 'N/A'}\n• Carrera recomendada: ${c || 'General'}`;
+      } else if (postType === "Venta") {
+        let n = document.getElementById("vender-nombre").value.trim();
+        let cat = document.getElementById("vender-categoria").value.trim();
+        let pr = document.getElementById("vender-precio").value.trim();
+        let desc = document.getElementById("vender-descripcion").value.trim();
+        let car = document.getElementById("vender-carrera").value.trim();
+        if(!n || !pr) return alert("Ingresa el nombre y precio del producto.");
+        txtContent = `🏷️ VENTA: ${n} - $${pr} MXN\n• Categoría: ${cat || 'General'}\n• Descripción: ${desc || 'Sin descripción'}\n• Carrera/Cuatrimestre: ${car || 'N/A'}`;
+      } else if (postType === "Intercambio") {
+        let doyP = document.getElementById("inter-doy-prod").value.trim();
+        let doyC = document.getElementById("inter-doy-carrera").value.trim();
+        let busP = document.getElementById("inter-busco-prod").value.trim();
+        let busC = document.getElementById("inter-busco-carrera").value.trim();
+        if(!doyP || !busP) return alert("Ingresa lo que das y lo que buscas a cambio.");
+        txtContent = `🔄 INTERCAMBIO:\n• Doy: ${doyP} (${doyC || 'General'})\n➔ Busco: ${busP} (${busC || 'General'})`;
+      } else if (postType === "Compra") {
+        let p = document.getElementById("comprar-producto").value.trim();
+        let c = document.getElementById("comprar-categoria").value.trim();
+        let pre = document.getElementById("comprar-presupuesto").value.trim();
+        if(!p) return alert("Ingresa el producto que buscas comprar.");
+        txtContent = `🔍 BUSCO COMPRAR: ${p}\n• Categoría: ${c || 'General'}\n• Presupuesto: $${pre || 'A convenir'} MXN`;
+      }
+
+      let url = document.getElementById("post-url").value.trim();
+      let file = document.getElementById("post-file").files[0];
+
+      if (!txtContent.trim() && !url && !file) return alert("Agrega datos para tu publicación.");
+
+      let imgPath = url || "";
+
+      if (file) {
+        try {
+          imgPath = await reduceImg(file);
+        } catch (err) {
+          return alert("Error al procesar la imagen seleccionada.");
+        }
+      }
+
+      try {
+        await addDoc(collection(db, "posts"), {
+          content: txtContent,
+          type: postType || "General",
+          imageUrl: imgPath,
+          authorEmail: auth.currentUser.email,
+          authorName: activeUserProfile ? activeUserProfile.fullName : auth.currentUser.email,
+          authorCareer: activeUserProfile ? activeUserProfile.career : "",
+          authorCuatrimestre: activeUserProfile ? activeUserProfile.cuatrimestre : "",
+          authorAvatar: activeUserProfile ? activeUserProfile.photoUrl : "",
+          createdAt: serverTimestamp()
+        });
+        
+        document.getElementById("post-input").value = "";
+        document.getElementById("post-url").value = "";
+        document.getElementById("post-file").value = "";
+        document.getElementById("donar-producto").value = "";
+        document.getElementById("vender-nombre").value = "";
+        document.getElementById("inter-doy-prod").value = "";
+        document.getElementById("comprar-producto").value = "";
+        alert("¡Publicado correctamente en UniMarket!");
+      } catch (e) { alert("Error al publicar: " + e.message); }
+    };
+
+    async function deletePost(id) {
+      if (!auth.currentUser) return;
+      if (!confirm("¿Borrar esta publicación?")) return;
+      try {
+        await deleteDoc(doc(db, "posts", id));
+      } catch (e) {
+        alert("No se pudo eliminar: " + e.message);
+      }
+    }
+
+    async function addComment(postId, inputEl) {
+      if (!auth.currentUser) {
+        alert("Inicia sesión para comentar.");
+        return showAuthView();
+      }
+      let txt = inputEl.value.trim();
+      if (!txt) return;
+      try {
+        await addDoc(collection(db, "posts", postId, "comments"), {
+          text: txt,
+          authorName: activeUserProfile ? activeUserProfile.fullName : auth.currentUser.email,
+          createdAt: serverTimestamp()
+        });
+        inputEl.value = "";
+      } catch (e) {
+        alert("Error al comentar: " + e.message);
+      }
+    }
+
+    function loadComments(postId, boxEl) {
+      let q = query(collection(db, "posts", postId, "comments"), orderBy("createdAt", "asc"));
+      onSnapshot(q, (s) => {
+        boxEl.innerHTML = "";
+        s.forEach((d) => {
+          let c = d.data();
+          let div = document.createElement("div");
+          div.className = "comment-item";
+          div.innerHTML = `<span class="comment-author">${c.authorName || 'Anónimo'}:</span> ${c.text}`;
+          boxEl.appendChild(div);
+        });
+      });
+    }
+
+    function createPostHTML(p, pId) {
+      let div = document.createElement("div");
+      div.className = "post";
+      
+      let img = p.imageUrl ? `<img src="${p.imageUrl}" class="post-img" alt="Imagen adjunta">` : '';
+      let canDelete = auth.currentUser && p.authorEmail === auth.currentUser.email;
+      let delBtn = canDelete ? `<button class="btn-del" data-id="${pId}">Eliminar</button>` : '';
+      let userPhoto = p.authorAvatar || defaultAvatar;
+
+      let infoTxt = "";
+      if (p.authorCareer || p.authorCuatrimestre) {
+        infoTxt = ` • ${p.authorCareer || ''} (${p.authorCuatrimestre || ''})`;
+      }
+
+      let badgeClass = "badge-general";
+      let pType = p.type || "General";
+      if (pType === "Venta") badgeClass = "badge-venta";
+      if (pType === "Compra") badgeClass = "badge-compra";
+      if (pType === "Donacion") badgeClass = "badge-donacion";
+      if (pType === "Intercambio") badgeClass = "badge-intercambio";
+
+      div.innerHTML = `
+        <div class="post-header">
+          <div class="post-author-wrapper">
+            <img src="${userPhoto}" class="avatar-sm" alt="Foto perfil">
+            <div>
+              <span class="post-author">${p.authorName || p.authorEmail || 'Anónimo'}</span>
+              <span class="post-badge ${badgeClass}">${pType}</span>
+              <div class="post-details">${p.authorEmail || ''}${infoTxt}</div>
+            </div>
+          </div>
+          ${delBtn}
+        </div>
+        ${p.content ? `<p style="margin-top:8px; color:#18181b; white-space:pre-line;">${p.content}</p>` : ''}
+        ${img}
+        <div class="comments-box">
+          <div id="comm-list-${pId}"></div>
+          <div class="comment-form">
+            <input type="text" id="comm-in-${pId}" placeholder="Escribe un comentario...">
+            <button data-comm-id="${pId}">Enviar</button>
+          </div>
+        </div>
+      `;
+
+      if (canDelete) {
+        div.querySelector(".btn-del").onclick = () => deletePost(pId);
+      }
+
+      let btnComm = div.querySelector(`[data-comm-id="${pId}"]`);
+      let inComm = div.querySelector(`#comm-in-${pId}`);
+      btnComm.onclick = () => addComment(pId, inComm);
+
+      loadComments(pId, div.querySelector(`#comm-list-${pId}`));
+
+      return div;
+    }
+
+    function getFeed() {
+      let q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+      onSnapshot(q, (s) => {
+        feed.innerHTML = "";
+        myFeed.innerHTML = "";
+
+        if (s.empty) {
+          feed.innerHTML = "<p style='color:#a1a1aa; margin-top:10px;'>No hay publicaciones aún.</p>";
+          myFeed.innerHTML = "<p style='color:#a1a1aa; margin-top:10px;'>No tienes publicaciones aún.</p>";
+          let countEl = document.getElementById("profile-posts-count");
+          if(countEl) countEl.textContent = "0";
+          return;
+        }
+
+        let myPostsCount = 0;
+
+        s.forEach((d) => {
+          let p = d.data();
+          let pId = d.id;
+
+          let postElFeed = createPostHTML(p, pId);
+          feed.appendChild(postElFeed);
+
+          if (auth.currentUser && p.authorEmail === auth.currentUser.email) {
+            let postElMine = createPostHTML(p, pId);
+            myFeed.appendChild(postElMine);
+            myPostsCount++;
+          }
+        });
+
+        let countEl = document.getElementById("profile-posts-count");
+        if(countEl) countEl.textContent = myPostsCount.toString();
+
+        if (myPostsCount === 0) {
+          myFeed.innerHTML = "<p style='color:#a1a1aa; margin-top:10px;'>No tienes publicaciones aún.</p>";
+        }
+      }, (e) => {
+        console.error("Error al cargar publicaciones:", e);
+        feed.innerHTML = `<p style="color:#ef4444; margin-top:10px;">Error al cargar datos: ${e.message}</p>`;
+      });
+    }
+  </script>
+</body>
+</html>
